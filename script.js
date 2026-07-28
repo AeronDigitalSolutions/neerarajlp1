@@ -358,4 +358,54 @@ document.addEventListener('DOMContentLoaded', () => {
     weddingDateInput.setAttribute('min', `${yyyy}-${mm}-${dd}`);
   }
 
+  // ========== FIXED BOTTOM BAR - SHOW AFTER HERO ==========
+  const fixedBottomBar = document.querySelector('.fixed-bottom-bar');
+  const heroSection = document.getElementById('hero');
+
+  if (fixedBottomBar && heroSection && 'IntersectionObserver' in window) {
+    const heroObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Hero is visible — hide the bar
+          fixedBottomBar.classList.remove('visible');
+        } else {
+          // Hero scrolled away — show the bar
+          fixedBottomBar.classList.add('visible');
+        }
+      });
+    }, {
+      threshold: 0.1
+    });
+
+    heroObserver.observe(heroSection);
+  }
+
+
+  // ========== REMOVE INJECTED SCROLL-TO-TOP BUTTONS ==========
+  // Some hosting platforms / browsers inject a scroll-to-top button.
+  // This removes them on load and watches for dynamically injected ones.
+  function removeScrollToTop() {
+    const selectors = [
+      '[class*="scroll-to-top"]',
+      '[class*="back-to-top"]',
+      '[class*="scrolltop"]',
+      '[class*="ScrollTop"]',
+      '[id*="scroll-to-top"]',
+      '[id*="back-to-top"]',
+      'a[href="#top"]',
+      'button[aria-label="Scroll to top"]'
+    ];
+    selectors.forEach(sel => {
+      document.querySelectorAll(sel).forEach(el => el.remove());
+    });
+  }
+
+  removeScrollToTop();
+
+  // Watch for dynamically injected elements
+  const bodyObserver = new MutationObserver(() => {
+    removeScrollToTop();
+  });
+  bodyObserver.observe(document.body, { childList: true, subtree: true });
+
 });
