@@ -5,21 +5,6 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  // ========== PRELOADER ==========
-  const preloader = document.getElementById('preloader');
-  
-  window.addEventListener('load', () => {
-    setTimeout(() => {
-      preloader.classList.add('hidden');
-    }, 1500);
-  });
-
-  // Fallback: hide preloader after 4s even if load doesn't fire
-  setTimeout(() => {
-    preloader.classList.add('hidden');
-  }, 4000);
-
-
   // ========== NAVBAR SCROLL EFFECT ==========
   const navbar = document.getElementById('navbar');
   let lastScroll = 0;
@@ -62,6 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ========== SMOOTH SCROLLING ==========
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
+      if (this.hasAttribute('data-open-lead')) return;
       e.preventDefault();
       const target = document.querySelector(this.getAttribute('href'));
       if (target) {
@@ -278,38 +264,75 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
 
+  // ========== FAST AVAILABILITY MODAL ==========
+  const leadModal = document.getElementById('leadModal');
+  const leadModalClose = document.getElementById('leadModalClose');
+
+  document.querySelectorAll('[data-open-lead]').forEach(trigger => {
+    trigger.addEventListener('click', (event) => {
+      if (!leadModal || typeof leadModal.showModal !== 'function') return;
+      event.preventDefault();
+      leadModal.showModal();
+      document.body.classList.add('modal-open');
+    });
+  });
+
+  function closeLeadModal() {
+    if (!leadModal) return;
+    leadModal.close();
+    document.body.classList.remove('modal-open');
+  }
+
+  leadModalClose?.addEventListener('click', closeLeadModal);
+  leadModal?.addEventListener('click', (event) => {
+    if (event.target === leadModal) closeLeadModal();
+  });
+  leadModal?.addEventListener('close', () => document.body.classList.remove('modal-open'));
+
+
   // ========== QUERY FORM HANDLING ==========
   const queryForm = document.getElementById('queryForm');
+  const quickLeadForm = document.getElementById('quickLeadForm');
   const formSubmitBtn = document.getElementById('formSubmitBtn');
   const formSuccess = document.getElementById('formSuccess');
 
-  queryForm.addEventListener('submit', function(e) {
+  async function handleLeadSubmit(e) {
     e.preventDefault();
+    const form = e.currentTarget;
+    if (!form.reportValidity()) return;
 
-    // Basic validation
-    const fullName = document.getElementById('fullName').value.trim();
-    const phone = document.getElementById('phone').value.trim();
-    const weddingDate = document.getElementById('weddingDate').value;
-    const service = document.getElementById('service').value;
+    const data = new FormData(form);
+    const serviceSelect = form.querySelector('[name="service"]');
+    const serviceLabel = serviceSelect?.selectedOptions?.[0]?.text || 'Bridal makeup';
+    const message = [
+      'Hello Neera, I would like to check bridal makeup availability.',
+      `Name: ${data.get('fullName') || ''}`,
+      `WhatsApp: ${data.get('phone') || ''}`,
+      `Wedding date: ${data.get('weddingDate') || ''}`,
+      `Wedding city/destination: ${data.get('weddingVenue') || ''}`,
+      `Service: ${serviceLabel}`
+    ].join('\n');
 
-    if (!fullName || !phone || !weddingDate || !service) {
-      // Shake the button
-      formSubmitBtn.style.animation = 'shake 0.5s ease';
-      setTimeout(() => { formSubmitBtn.style.animation = ''; }, 500);
-      return;
+    try {
+      await navigator.clipboard.writeText(message);
+    } catch (error) {
+      // Clipboard access may be unavailable; the Instagram handoff still works.
     }
 
-    // Show loading state
-    formSubmitBtn.classList.add('loading');
-    formSubmitBtn.disabled = true;
-
-    // Simulate form submission (replace with real backend)
-    setTimeout(() => {
-      formSubmitBtn.classList.remove('loading');
+    if (form === queryForm) {
       queryForm.style.display = 'none';
       formSuccess.classList.add('show');
-    }, 2000);
-  });
+    } else {
+      const status = form.querySelector('.form-status');
+      status.innerHTML = 'Your inquiry has been prepared and copied. <a href="https://ig.me/m/neera_makeupartistry" target="_blank" rel="noopener noreferrer">Message Neera on Instagram →</a>';
+      form.querySelector('button[type="submit"]').disabled = true;
+    }
+
+    window.dispatchEvent(new CustomEvent('neera:lead', { detail: { source: form.id } }));
+  }
+
+  queryForm?.addEventListener('submit', handleLeadSubmit);
+  quickLeadForm?.addEventListener('submit', handleLeadSubmit);
 
 
   // ========== ACTIVE NAV LINK ON SCROLL ==========
@@ -349,13 +372,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // ========== WEDDING DATE MIN DATE ==========
-  const weddingDateInput = document.getElementById('weddingDate');
-  if (weddingDateInput) {
+  const weddingDateInputs = document.querySelectorAll('input[type="date"]');
+  if (weddingDateInputs.length) {
     const today = new Date();
     const yyyy = today.getFullYear();
     const mm = String(today.getMonth() + 1).padStart(2, '0');
     const dd = String(today.getDate()).padStart(2, '0');
-    weddingDateInput.setAttribute('min', `${yyyy}-${mm}-${dd}`);
+    weddingDateInputs.forEach(input => input.setAttribute('min', `${yyyy}-${mm}-${dd}`));
   }
 
   // ========== FIXED BOTTOM BAR - SHOW AFTER HERO ==========

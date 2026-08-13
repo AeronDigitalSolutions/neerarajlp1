@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Neera Raj - Premium Bridal Makeup Artist. Transform your wedding day with luxurious bridal makeup services. Enhance. Empower. Express.">
+  <meta name="description" content="Luxury bridal makeup by Neera Raj, available across India and for destination weddings. Check availability for your wedding date.">
   <meta name="keywords" content="bridal makeup, wedding makeup artist, Neera Raj, luxury bridal makeup, Indian bridal makeup">
   <meta name="author" content="Neera Raj Makeup Artist">
 
@@ -22,13 +22,6 @@
 </head>
 <body>
 
-  <!-- ========== PRELOADER ========== -->
-  <div class="preloader" id="preloader">
-    <img src="images/logo.jpeg" alt="Neera Raj Logo" class="preloader-logo">
-    <p class="preloader-text">Neera Raj</p>
-    <div class="preloader-bar"></div>
-  </div>
-
   <!-- ========== NAVIGATION ========== -->
   <nav class="navbar" id="navbar">
     <div class="container">
@@ -40,7 +33,7 @@
         <a href="#services">Services</a>
         <a href="#portfolio">Portfolio</a>
         <a href="#testimonials">Reviews</a>
-        <a href="#bookForm" class="nav-cta">Book Now</a>
+        <a href="#bookForm" class="nav-cta" data-open-lead>Check Availability</a>
       </div>
       <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation menu">
         <span></span>
@@ -57,7 +50,7 @@
     <a href="#portfolio" class="mobile-link">Portfolio</a>
     <a href="#testimonials" class="mobile-link">Reviews</a>
     <a href="#process" class="mobile-link">Process</a>
-    <a href="#bookForm" class="mobile-link">Book Now</a>
+    <a href="#bookForm" class="mobile-link" data-open-lead>Check Availability</a>
   </div>
 
   <!-- ========== HERO SECTION ========== -->
@@ -73,24 +66,26 @@
     <div class="hero-content">
       <div class="container">
         <div class="hero-badge">
-          <span>✦ Premium Bridal Makeup Artist</span>
+          <span>✦ Pan-India & Destination Weddings</span>
         </div>
         <h1 class="hero-title">
-          The Art of
-          <span class="name-highlight">Bridal Beauty</span>
+          Your Dream Bridal Look,
+          <span class="name-highlight">Created Anywhere in India</span>
         </h1>
-        <p class="hero-tagline">Enhance. Empower. Express.</p>
+        <p class="hero-tagline">Luxury artistry that looks flawless in person and on camera.</p>
         <p class="hero-description">
-          Creating timeless bridal looks that celebrate your unique beauty. 
-          Every bride deserves to feel extraordinary on her special day.
+          From your first ceremony to the final photograph, enjoy a personalised, long-lasting look created around your features, outfit and vision.
         </p>
         <div class="hero-actions">
-          <a href="#bookForm" class="btn-primary">
-            Book Your Bridal Look ✦
+          <a href="#bookForm" class="btn-primary" data-open-lead>
+            Check My Wedding Date ✦
           </a>
           <a href="#portfolio" class="btn-secondary">
             View Portfolio →
           </a>
+        </div>
+        <div class="hero-proof" aria-label="Service highlights">
+          <span>8+ years of expertise</span><span>Premium products</span><span>Travels pan-India</span>
         </div>
       </div>
     </div>
@@ -101,24 +96,57 @@
     </div>
   </section>
 
+  <!-- ========== FAST AVAILABILITY FORM ========== -->
+  <dialog class="lead-modal" id="leadModal" aria-labelledby="leadModalTitle">
+    <button class="lead-modal-close" type="button" id="leadModalClose" aria-label="Close availability form">×</button>
+    <span class="section-label">Complimentary availability check</span>
+    <h2 id="leadModalTitle">Is your wedding date available?</h2>
+    <p>Share four quick details. Neera's team will help you choose the right bridal experience.</p>
+    <form class="quick-lead-form lead-form" id="quickLeadForm">
+      <div class="form-group">
+        <label for="quickName">Your name *</label>
+        <input type="text" id="quickName" name="fullName" autocomplete="name" placeholder="Your name" required>
+      </div>
+      <div class="form-group">
+        <label for="quickPhone">WhatsApp number *</label>
+        <input type="tel" id="quickPhone" name="phone" autocomplete="tel" inputmode="tel" placeholder="+91 XXXXX XXXXX" required>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="quickDate">Wedding date *</label>
+          <input type="date" id="quickDate" name="weddingDate" required>
+        </div>
+        <div class="form-group">
+          <label for="quickCity">Wedding city *</label>
+          <input type="text" id="quickCity" name="weddingVenue" placeholder="City or destination" required>
+        </div>
+      </div>
+      <button type="submit" class="form-submit">
+        <span class="btn-text">Check My Date ✦</span>
+      </button>
+      <p class="form-privacy">No spam—only a response about your bridal booking.</p>
+      <p class="form-status" aria-live="polite"></p>
+    </form>
+  </dialog>
+
   <!-- ========== STATS BAR ========== -->
   <section class="stats-bar reveal">
     <div class="container">
       <div class="stat-item">
-        <div class="stat-number"><span class="counter" data-target="500">0</span><span class="counter-suffix">+</span></div>
-        <div class="stat-label">Happy Brides</div>
+        <div class="stat-number"><span class="counter-static">HD</span></div>
+        <div class="stat-label">Camera-Ready Finish</div>
       </div>
       <div class="stat-item">
         <div class="stat-number"><span class="counter" data-target="8">0</span><span class="counter-suffix">+</span></div>
         <div class="stat-label">Years Experience</div>
       </div>
       <div class="stat-item">
-        <div class="stat-number"><span class="counter" data-target="50">0</span><span class="counter-suffix">+</span></div>
-        <div class="stat-label">Cities Covered</div>
+        <div class="stat-number"><span class="counter-static">12+ Hr</span></div>
+        <div class="stat-label">Long-Lasting Looks</div>
       </div>
       <div class="stat-item">
-        <div class="stat-number"><span class="counter" data-target="100">0</span><span class="counter-suffix">%</span></div>
-        <div class="stat-label">Satisfaction Rate</div>
+        <div class="stat-number"><span class="counter-static">Pan-India</span></div>
+        <div class="stat-label">Ready to Travel</div>
       </div>
     </div>
   </section>
@@ -177,8 +205,8 @@
           <div class="highlight-item reveal delay-4">
             <div class="highlight-icon">🏆</div>
             <div class="highlight-text">
-              Award Winning
-              <span>Recognized industry excellence</span>
+              Pan-India Travel
+              <span>Bridal artistry at your destination</span>
             </div>
           </div>
         </div>
@@ -454,39 +482,22 @@
 
         <div class="contact-details">
           <div class="contact-detail-item">
-            <div class="contact-detail-icon">📞</div>
-            <div class="contact-detail-text">
-              <strong>Phone</strong>
-              <span>+91 98765 43210</span>
-            </div>
-          </div>
-          <div class="contact-detail-item">
-            <div class="contact-detail-icon">✉️</div>
-            <div class="contact-detail-text">
-              <strong>Email</strong>
-              <span>hello@neeraraj.com</span>
-            </div>
-          </div>
-          <div class="contact-detail-item">
             <div class="contact-detail-icon">📍</div>
             <div class="contact-detail-text">
               <strong>Studio</strong>
-              <span>New Delhi, India (Available Pan-India)</span>
+          <span>Available across India & for destination weddings</span>
             </div>
           </div>
         </div>
 
         <div class="contact-social">
           <a href="https://www.instagram.com/neera_makeupartistry" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">📸</a>
-          <a href="#" class="social-link" aria-label="Facebook">📘</a>
-          <a href="#" class="social-link" aria-label="YouTube">🎬</a>
-          <a href="#" class="social-link" aria-label="Pinterest">📌</a>
         </div>
       </div>
 
       <div class="contact-form-wrapper reveal-right" id="bookForm">
-        <h3 class="contact-form-title">Book Your Appointment</h3>
-        <p class="contact-form-subtitle">Fill in the details and we'll get back to you within 24 hours.</p>
+        <h3 class="contact-form-title">Check Your Wedding Date</h3>
+        <p class="contact-form-subtitle">Tell us the essentials and we'll help you plan the perfect bridal look.</p>
 
         <form id="queryForm">
           <div class="form-row">
@@ -495,8 +506,8 @@
               <input type="text" id="fullName" name="fullName" placeholder="Your name" required>
             </div>
             <div class="form-group">
-              <label for="phone">Phone Number *</label>
-              <input type="tel" id="phone" name="phone" placeholder="+91 XXXXX XXXXX" required>
+              <label for="phone">WhatsApp Number *</label>
+              <input type="tel" id="phone" name="phone" autocomplete="tel" inputmode="tel" placeholder="+91 XXXXX XXXXX" required>
             </div>
           </div>
 
@@ -525,8 +536,8 @@
           </div>
 
           <div class="form-group">
-            <label for="weddingVenue">Wedding Venue / City</label>
-            <input type="text" id="weddingVenue" name="weddingVenue" placeholder="City or venue name">
+            <label for="weddingVenue">Wedding City / Destination *</label>
+            <input type="text" id="weddingVenue" name="weddingVenue" placeholder="City or destination" required>
           </div>
 
           <div class="form-group">
@@ -535,7 +546,7 @@
           </div>
 
           <button type="submit" class="form-submit" id="formSubmitBtn">
-            <span class="btn-text">Send Inquiry ✦</span>
+            <span class="btn-text">Check Availability ✦</span>
             <div class="btn-loader"></div>
           </button>
         </form>
@@ -543,7 +554,8 @@
         <div class="form-success" id="formSuccess">
           <div class="form-success-icon">✨</div>
           <h4>Thank You!</h4>
-          <p>Your inquiry has been sent successfully. We'll get back to you within 24 hours to discuss your dream bridal look.</p>
+          <p>Your inquiry is ready. Continue to Instagram to send it directly to Neera's team.</p>
+          <a class="success-action" href="https://ig.me/m/neera_makeupartistry" target="_blank" rel="noopener noreferrer">Continue to Instagram →</a>
         </div>
       </div>
     </div>
@@ -582,19 +594,12 @@
         <div class="footer-column">
           <h5>Connect</h5>
           <a href="https://www.instagram.com/neera_makeupartistry" target="_blank" rel="noopener noreferrer">Instagram</a>
-          <a href="#">Facebook</a>
-          <a href="#">YouTube</a>
-          <a href="#">Pinterest</a>
-          <a href="#">WhatsApp</a>
+          <a href="https://ig.me/m/neera_makeupartistry" target="_blank" rel="noopener noreferrer">Instagram Message</a>
         </div>
       </div>
 
       <div class="footer-bottom">
-        <p>&copy; 2024 Neera Raj Makeup Artist. All rights reserved.</p>
-        <div class="footer-bottom-links">
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms of Service</a>
-        </div>
+        <p>&copy; 2026 Neera Raj Makeup Artist. All rights reserved.</p>
       </div>
     </div>
   </footer>
@@ -609,7 +614,7 @@
 
   <!-- ========== FIXED BOTTOM BOOK NOW BAR ========== -->
   <div class="fixed-bottom-bar">
-    <a href="#bookForm" class="fixed-book-btn">Book Now ✦</a>
+    <a href="#bookForm" class="fixed-book-btn" data-open-lead>Check My Date ✦</a>
   </div>
 
   <!-- ========== FLOATING INSTAGRAM ========== -->
