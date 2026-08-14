@@ -295,6 +295,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const quickLeadForm = document.getElementById('quickLeadForm');
   const formSubmitBtn = document.getElementById('formSubmitBtn');
   const formSuccess = document.getElementById('formSuccess');
+  const leadEndpoint = 'https://script.google.com/macros/s/AKfycbxORd57P7CNUhsdIttMLwqothScHGKidaDLzV3ox08d7SxQl44miquYCnic5rEuHqmrtw/exec';
 
   async function handleLeadSubmit(e) {
     e.preventDefault();
@@ -304,6 +305,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const data = new FormData(form);
     const serviceSelect = form.querySelector('[name="service"]');
     const serviceLabel = serviceSelect?.selectedOptions?.[0]?.text || 'Bridal makeup';
+    const submitButton = form.querySelector('button[type="submit"]');
+    const status = form.querySelector('.form-status');
+    const urlParams = new URLSearchParams(window.location.search);
+    const leadPayload = new URLSearchParams({
+      fullName: data.get('fullName') || '',
+      phone: data.get('phone') || '',
+      email: data.get('email') || '',
+      weddingDate: data.get('weddingDate') || '',
+      weddingVenue: data.get('weddingVenue') || '',
+      service: serviceLabel,
+      message: data.get('message') || '',
+      leadSource: urlParams.get('utm_source') || 'Landing Page',
+      campaign: urlParams.get('utm_campaign') || '',
+      adSet: urlParams.get('utm_term') || urlParams.get('adset') || '',
+      ad: urlParams.get('utm_content') || urlParams.get('ad') || '',
+      pageUrl: window.location.href
+    });
     const message = [
       'Hello Neera, I would like to check bridal makeup availability.',
       `Name: ${data.get('fullName') || ''}`,
@@ -313,19 +331,38 @@ document.addEventListener('DOMContentLoaded', () => {
       `Service: ${serviceLabel}`
     ].join('\n');
 
+    submitButton.disabled = true;
+    submitButton.classList.add('loading');
+    if (status) status.textContent = 'Saving your inquiry…';
+
+    try {
+      await fetch(leadEndpoint, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+        body: leadPayload
+      });
+
+    } catch (error) {
+      submitButton.disabled = false;
+      submitButton.classList.remove('loading');
+      if (status) status.textContent = 'We could not save your inquiry. Please check your connection and try again.';
+      return;
+    }
+
     try {
       await navigator.clipboard.writeText(message);
     } catch (error) {
-      // Clipboard access may be unavailable; the Instagram handoff still works.
+      // Clipboard access is optional; the lead has already been saved.
     }
 
+    submitButton.classList.remove('loading');
     if (form === queryForm) {
       queryForm.style.display = 'none';
       formSuccess.classList.add('show');
     } else {
-      const status = form.querySelector('.form-status');
-      status.innerHTML = 'Your inquiry has been prepared and copied. <a href="https://ig.me/m/neera_makeupartistry" target="_blank" rel="noopener noreferrer">Message Neera on Instagram →</a>';
-      form.querySelector('button[type="submit"]').disabled = true;
+      status.innerHTML = 'Thank you—your inquiry has been saved. Neera\'s team will contact you about your date. <a href="https://ig.me/m/neera_makeupartistry" target="_blank" rel="noopener noreferrer">Message on Instagram →</a>';
+      form.reset();
     }
 
     window.dispatchEvent(new CustomEvent('neera:lead', { detail: { source: form.id } }));
